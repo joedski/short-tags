@@ -134,3 +134,8 @@ The parser supports two shortcuts, which are probably about the only thing which
 - Id: `{foo#foobie}` is the same as writing `{foo id=foobie}`.
 
 These can be combined, too: `{foo#foobie=bar}`.
+
+
+### Limitations
+
+I wrote this to work with relatively short blocks of text, discrete documents that are already in memory, no larger than a few kilobytes.  The first Behavior noted is not very amenable to streaming, and was decided upon to make things easier for users of the software this library is being used in.  This also simplified the behavior of the treeifier, though, as tags can all be treated uniformly, unlike with HTML, but means everything must be in memory and batch processed or the behavior is undefined.

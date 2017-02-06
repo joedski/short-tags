@@ -38,14 +38,17 @@ Corpus
  * Text = {
  *   type: 'text',
  *   text: string,
+ *   sourceText: string,
  *   location: Location,
  * }
  */
 Text
-	= chars:(NonOpeningChar / EscapedChar)+ {
+	= (NonOpeningChar / EscapedChar)+ {
 		return {
 			type: "text",
 			text: chars.join( '' ),
+			// sourceText contains escape sequences, too.
+			sourceText: text(),
 			location: location(),
 		};
 	}
@@ -75,7 +78,7 @@ Space
  *   type: 'tagOpen',
  *   tagName: string,
  *   attributes: Map<string, string>,
- *   text: string,
+ *   sourceText: string,
  *   location: Location
  * }
  */
@@ -96,7 +99,7 @@ TagOpen
 			type: closingSlash ? "tagSelfClosing" : "tagOpen",
 			tagName: tagName.name,
 			attributes: attributes,
-      text: text(),
+      sourceText: text(),
 			location: location(),
 		};
 	}
@@ -143,7 +146,7 @@ TagNameValueChars = [^/ }=#]
  * TagClose = {
  *   type: 'tagClose',
  *   tagName: string,
- *   text: string,
+ *   sourceText: string,
  *   location: Location,
  * }
  */
@@ -154,7 +157,7 @@ TagClose
 			type: "tagClose",
 			tagName: tagName.name,
 			location: location(),
-			text: text(),
+			sourceText: text(),
 		};
 	}
 

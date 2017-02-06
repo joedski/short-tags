@@ -17,6 +17,7 @@ type Location = {
 type TextEntity = {
   type: 'text',
   text: string,
+  sourceText: string,
   location: Location,
 };
 
@@ -24,7 +25,7 @@ type TagOpenEntity = {
   type: 'tagOpen',
   tagName: string,
   attributes: Map<string, string>,
-  text: string,
+  sourceText: string,
   location: Location
 };
 
@@ -32,14 +33,14 @@ type TagSelfClosingEntity = {
   type: 'tagSelfClosing',
   tagName: string,
   attributes: Map<string, string>,
-  text: string,
+  sourceText: string,
   location: Location
 };
 
 type TagCloseEntity = {
   type: 'tagClose',
   tagName: string,
-  text: string,
+  sourceText: string,
   location: Location,
 };
 
