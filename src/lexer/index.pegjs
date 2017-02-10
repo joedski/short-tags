@@ -136,7 +136,7 @@ ValueShortcut
 		};
 	}
 
-TagNameValueChars = [^/ }=#]
+TagNameValueChars = [^/ {}=#]
 
 
 

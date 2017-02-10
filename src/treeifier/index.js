@@ -73,11 +73,17 @@ type StackFrame = {
 };
 
 
-export function createTag({
+type TagArgs = {
   openTag: TagOpenEntity,
   closeTag?: TagCloseEntity,
-  contents: Tree = [],
-}): TagEntity {
+  contents: Tree,
+};
+
+export function createTag({
+  openTag,
+  closeTag,
+  contents = [],
+}: TagArgs ): TagEntity {
   return {
     type: 'tag',
     tagName: openTag.tagName,
@@ -97,8 +103,8 @@ export function createTag({
   };
 }
 
-export default function treeify(entities: Array<Entity>): Tree {
-  const stack = [
+export default function treeify( entities: Array<Entity> ): Tree {
+  const stack: Array<StackFrame> = [
     { tree: [], list: entities },
   ];
 
