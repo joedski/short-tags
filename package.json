@@ -1,0 +1,64 @@
+{
+  "name": "short-tags",
+  "version": "0.0.0",
+  "description": "Simple parser for curly-style short tags.",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib es",
+    "build": "mkdirp lib es && npm-run-all build:**",
+    "build:commonjs:lexer": "mkdirp lib/lexer && pegjs --optimize size -o lib/lexer/index.js src/lexer/index.pegjs",
+    "build:commonjs:treeifier": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es:lexer": "mkdirp es/lexer && pegjs --optimize size -o es/lexer/index.js src/lexer/index.pegjs",
+    "build:es:treeifier": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "prepublish": "npm run clean && npm run build",
+    "preversion": "npm run clean && npm run test:lint",
+    "test": "ava",
+    "test:headless": "ava --tap",
+    "test:lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joedski/short-tags.git"
+  },
+  "keywords": [
+    "parser",
+    "short-tags",
+    "tags",
+    "dsl"
+  ],
+  "author": "Joseph Sikorski <joedski@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joedski/short-tags/issues"
+  },
+  "homepage": "https://github.com/joedski/short-tags#readme",
+  "devDependencies": {
+    "ava": "^0.18.1",
+    "babel-cli": "^6.22.2",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "cross-env": "^3.1.4",
+    "eslint": "^3.15.0",
+    "eslint-plugin-flowtype": "^2.30.0",
+    "eslint-plugin-import": "^2.2.0",
+    "flow-bin": "^0.38.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.0.1",
+    "pegjs": "^0.10.0",
+    "rimraf": "^2.5.4"
+  },
+  "ava": {
+    "babel": "inherit",
+    "files": [
+      "test/*.js",
+      "!_*"
+    ],
+    "require": [
+      "babel-register"
+    ]
+  }
+}
