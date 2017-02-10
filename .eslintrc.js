@@ -22,6 +22,7 @@ module.exports = {
 	"env": {
 	  "es6": true,
 	  "commonjs": true,
+	  "node": true,
 	},
 	"rules": {
 	  "strict": 0

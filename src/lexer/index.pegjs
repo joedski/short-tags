@@ -43,7 +43,7 @@ Corpus
  * }
  */
 Text
-	= (NonOpeningChar / EscapedChar)+ {
+	= chars:(NonOpeningChar / EscapedChar)+ {
 		return {
 			type: "text",
 			text: chars.join( '' ),

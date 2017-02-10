@@ -1,7 +1,13 @@
 
-import lex from './lexer';
+import { parse as lex } from './lexer';
 import treeify from './treeifier';
 
-export function parse( text ) {
+function parse( text ) {
 	return treeify( lex( text ) );
 }
+
+export {
+	treeify,
+	lex,
+	parse,
+};
