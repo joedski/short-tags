@@ -66,18 +66,23 @@ test( `should create tagOpen entities with attributes`, t => {
 	const entitiesDoubleQuotedAttrs = lex( `This text has a {tag with="an attribute" and="'nother"} in it` );
 	const entitiesSingleQuotedAttrs = lex( `This text has a {tag with='an attribute' and='a "nother"'} in it` );
 
-	// t.is( entities.length, 3 );
-	// t.deepEqual( entities.map( e => e.type ), [ 'text', 'tagOpen', 'text' ] );
-	// t.
-
 	[
-		[ 'Bare Attrs', entitiesBareAttrs ],
-		[ 'Double Quoted Attrs', entitiesDoubleQuotedAttrs ],
-		[ 'Single Quoted Attrs', entitiesSingleQuotedAttrs ]
-	].forEach( ([ name, entities ]) => {
+		[ 'Bare Attrs', entitiesBareAttrs, new Map([ [ 'with', `anAttribute` ], [ 'and', `another` ] ]) ],
+		[ 'Double Quoted Attrs', entitiesDoubleQuotedAttrs, new Map([ [ 'with', `an attribute` ], [ 'and', `'nother` ] ]) ],
+		[ 'Single Quoted Attrs', entitiesSingleQuotedAttrs, new Map([ [ 'with', `an attribute` ], [ 'and', `a "nother"` ] ]) ]
+	].forEach( ([ name, entities, attributes ]) => {
 		t.is( entities.length, 3, `${name} should have 3 entities` );
 		t.deepEqual( entities.map( e => e.type ), [ 'text', 'tagOpen', 'text' ], `${name} should have a text entity, a tagOpen entity, and a text entity` );
 		t.is( entities[ 1 ].tagName, 'tag', `${name} should have a tag named 'tag'` );
-		t.is( entities[ 1 ].attributes.size, 2, `${name}'s tag should have 2 attributes` );
+		t.deepEqual( attributes, entities[ 1 ].attributes, `${name}'s tag's attributes should match the expected ones` );
 	});
+});
+
+test( `should handle tag-opening characters in quoted attribute values`, t => {
+	const entities = lex( `{someTag with="{Not a tag}" and='{Also not}'}` );
+
+	t.is( entities.length, 1, `there should only be one entity` );
+	t.is( entities[ 0 ].type, 'tagOpen', `it should be a tagOpen` );
+	t.is( entities[ 0 ].attributes.get( 'with' ), `{Not a tag}` );
+	t.is( entities[ 0 ].attributes.get( 'and' ), `{Also not}` );
 });
