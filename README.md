@@ -58,15 +58,15 @@ function textOfTag( tag ) {
 			// Impurity alert! >:O
 			// NOTE: Assigning a value to the tag-name is the same as
 			// adding a `value=` attribute.
-			documentProps.title = tag.attributes.value;
-			documentProps.variant = tag.attributes.variant;
+			documentProps.title = tag.attributes.get( 'value' );
+			documentProps.variant = tag.attributes.get( 'variant' );
 
 			// Document tag is config, so no output results from it.
 			return '';
 		}
 
 		case 'important': {
-			var level = tag.attributes.level || 'kinda';
+			var level = tag.attributes.get( 'level' ) || 'kinda';
 			var contents = tag.children.map( textOfEntity );
 
 			switch( level ) {
@@ -83,8 +83,8 @@ function textOfTag( tag ) {
 		}
 
 		case 'link': {
-			var url = tag.attributes.value;
-			var openInNewWindow = !! tag.attributes['new-window'];
+			var url = tag.attributes.get( 'value' );
+			var openInNewWindow = !! tag.attributes.get( 'new-window' );
 
 			return (
 				'<a href="' + url + '"'
